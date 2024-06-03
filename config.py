@@ -1,7 +1,9 @@
 import os
 
-ANGEL_BOT_TOKEN = os.environ['ANGEL_BOT_TOKEN']
-PLAYERS_FILENAME = os.environ['PLAYERS_FILENAME']
-CHAT_ID_JSON = os.environ['CHAT_ID_JSON']
-ANGEL_ALIAS = os.environ['ANGEL_ALIAS']
-MORTAL_ALIAS = os.environ['MORTAL_ALIAS']
+ANGEL_BOT_TOKEN = os.getenv('ANGEL_BOT_TOKEN')
+# PLAYERS_FILENAME = os.getenv('PLAYERS_FILENAME')
+PLAYERS_FILENAME = 'players.csv'
+# CHAT_ID_JSON = os.getenv('CHAT_ID_JSON')
+CHAT_ID_JSON = 'chat_id.json'
+ANGEL_ALIAS = "Angel"
+MORTAL_ALIAS = "Mortal"
