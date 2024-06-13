@@ -143,12 +143,12 @@ async def sendAngel(update: Update, context: CallbackContext):
     playerName = update.message.chat.username.lower()
     
     if update.message.text:
-        context.bot.send_message(
+        await context.bot.send_message(
             text = messages.getReceivedMessage(config.MORTAL_ALIAS, update.message.text),
             chat_id = players[playerName].angel.chat_id
         )
     else:
-        context.bot.send_message(
+        await context.bot.send_message(
             text = messages.getReceivedMessage(config.MORTAL_ALIAS),
             chat_id = players[playerName].angel.chat_id
         )
@@ -164,12 +164,12 @@ async def sendMortal(update: Update, context: CallbackContext):
     playerName = update.message.chat.username.lower()
 
     if update.message.text:
-        context.bot.send_message(
+        await context.bot.send_message(
             text = messages.getReceivedMessage(config.ANGEL_ALIAS, update.message.text),
             chat_id = players[playerName].mortal.chat_id
         )
     else:
-        context.bot.send_message(
+        await context.bot.send_message(
             text = messages.getReceivedMessage(config.ANGEL_ALIAS),
             chat_id = players[playerName].mortal.chat_id
         )
