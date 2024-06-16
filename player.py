@@ -5,12 +5,14 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class Player():
     def __init__(self):
         self.username = None
         self.angel = None
-        self.mortal = None
+        # self.mortal = None
         self.chat_id = None
+
 
 def loadPlayers(players: dict):
     with open(config.PLAYERS_FILENAME) as csv_file:
@@ -24,7 +26,8 @@ def loadPlayers(players: dict):
                 playerName = row[0].strip().lower()
                 angelName = row[1].strip().lower()
                 # mortalName = row[2].strip().lower()
-                logger.info(f'\t{playerName} has angel {angelName}') # and mortal {mortalName}.')
+                # and mortal {mortalName}.')
+                logger.info(f'\t{playerName} has angel {angelName}')
                 players[playerName].username = playerName
                 players[playerName].angel = players[angelName]
                 # players[playerName].mortal = players[mortalName]
@@ -34,22 +37,24 @@ def loadPlayers(players: dict):
     # validatePairings(players)
     loadChatID(players)
 
-def validatePairings(players: dict):
-    for _, player in players.items():
-        if player.angel.angel.username != player.username or player.mortal.angel.username != player.username:
-            print(f'Error with {player.username} pairings')
-            logger.error(f'Error with {player.username} pairings')
-            exit(1)
+# def validatePairings(players: dict):
+#     for _, player in players.items():
+#         if player.angel.angel.username != player.username or player.mortal.angel.username != player.username:
+#             print(f'Error with {player.username} pairings')
+#             logger.error(f'Error with {player.username} pairings')
+#             exit(1)
 
-    logger.info(f'Validation complete, no issues with pairings.')
+#     logger.info(f'Validation complete, no issues with pairings.')
+
 
 def saveChatID(players: dict):
     temp = {}
     for k, v in players.items():
         temp[k] = v.chat_id
-    
+
     with open(config.CHAT_ID_JSON, 'w+') as f:
         json.dump(temp, f)
+
 
 def loadChatID(players: dict):
     try:
