@@ -23,20 +23,20 @@ def loadPlayers(players: dict):
             else:
                 playerName = row[0].strip().lower()
                 angelName = row[1].strip().lower()
-                mortalName = row[2].strip().lower()
-                logger.info(f'\t{playerName} has angel {angelName} and mortal {mortalName}.')
+                # mortalName = row[2].strip().lower()
+                logger.info(f'\t{playerName} has angel {angelName}') # and mortal {mortalName}.')
                 players[playerName].username = playerName
                 players[playerName].angel = players[angelName]
-                players[playerName].mortal = players[mortalName]
+                # players[playerName].mortal = players[mortalName]
                 line_count += 1
         logger.info(f'Processed {line_count} lines.')
 
-    validatePairings(players)
+    # validatePairings(players)
     loadChatID(players)
 
 def validatePairings(players: dict):
     for _, player in players.items():
-        if player.angel.mortal.username != player.username or player.mortal.angel.username != player.username:
+        if player.angel.angel.username != player.username or player.mortal.angel.username != player.username:
             print(f'Error with {player.username} pairings')
             logger.error(f'Error with {player.username} pairings')
             exit(1)
