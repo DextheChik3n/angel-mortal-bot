@@ -37,17 +37,21 @@ player.loadPlayers(players)
 async def start(update: Update, context: CallbackContext) -> int:
     """Send a message when the command /start is issued."""
     playerName = update.message.chat.username.lower()
+    players[playerName].chat_id = update.message.chat.id
+    
     if players[playerName].username is None:
         await update.message.reply_text(messages.NOT_REGISTERED)
         return
 
-    players[playerName].chat_id = update.message.chat.id
+    if players[playerName].chat_id is None:
+        await update.message.reply_text(messages.ERROR_CHAT_ID)
+        return ConversationHandler.END
 
     logger.info(
         f'{playerName} started the bot with chat_id {players[playerName].chat_id}')
 
     if players[playerName].info is None:
-        # if the player has not answer their profile questions
+        # When the player runs the bot for the first time, prompt to answer their profile questions first
         players[playerName].info = ['blank', 'blank', 'blank']
         q1_ans = players[playerName].info[0]
         q2_ans = players[playerName].info[1]
@@ -70,9 +74,19 @@ async def start(update: Update, context: CallbackContext) -> int:
 
     else:
         # if the player answer already, allow to view angel profile and send message
-        await update.message.reply_text('you have aldy ans ur personal quiz, naisu')
-        # show inline keyboard to either view angel's info profile or send a message
-        # or should like check if their partner is registered aldy?
+        if players[playerName].angel.chat_id is None:
+            await update.message.reply_text(messages.getBotNotStartedMessage(config.ANGEL_ALIAS))
+
+            logger.info(
+                messages.getNotRegisteredLog(config.ANGEL_ALIAS, playerName, players[playerName].angel.username))
+
+            return ConversationHandler.END
+
+        send_menu = [[InlineKeyboardButton('View Angel Info.', callback_data='view')],
+                     [InlineKeyboardButton('Send Message', callback_data='send')]]
+        reply_markup = InlineKeyboardMarkup(send_menu)
+
+        await update.message.reply_text('What would you like to do?', reply_markup=reply_markup)
 
         return SEND_CHOOSING
 
@@ -127,30 +141,25 @@ async def done_info(update: Update, context: CallbackContext) -> int:
 async def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
     await update.message.reply_text(messages.HELP_TEXT)
-
+    
+async def view_angel_info(update: Update, context: CallbackContext) -> int:
+    """Display player's angel personality quiz answers"""
+    playerName = update.callback_query.message.chat.username.lower()
+    angelInfo = players[playerName].angel.info
+    
+    await update.callback_query.message.reply_text(
+        'Here are some information about your Mortal:\n'
+        + messages.getInfoQuestion(1) + angelInfo[0]
+        + messages.getInfoQuestion(2) + angelInfo[1]
+        + messages.getInfoQuestion(3) + angelInfo[2])
+    
+    return ConversationHandler.END
 
 async def send_command(update: Update, context: CallbackContext) -> int:
     """Start send convo when the command /send is issued."""
-    playerName = update.message.chat.username.lower()
+    playerName = update.callback_query.message.chat.username.lower()
 
-    if players[playerName].username is None:
-        await update.message.reply_text(messages.NOT_REGISTERED)
-        return ConversationHandler.END
-
-    if players[playerName].chat_id is None:
-        await update.message.reply_text(messages.ERROR_CHAT_ID)
-        return ConversationHandler.END
-
-    if players[playerName].angel.chat_id is None:
-        await update.message.reply_text(messages.getBotNotStartedMessage(config.ANGEL_ALIAS))
-
-        logger.info(
-            messages.getNotRegisteredLog(
-                config.ANGEL_ALIAS, playerName, players[playerName].angel.username))
-
-        return ConversationHandler.END
-
-    await update.message.reply_text(messages.getPlayerMessage(config.ANGEL_ALIAS))
+    await update.callback_query.message.reply_text(messages.getPlayerMessage(config.ANGEL_ALIAS))
 
     return ANGEL
 
@@ -204,7 +213,8 @@ def main() -> None:
         states={
             INFO_CHOOSING: [CallbackQueryHandler(fill_info, pattern='^(1|2|3)$'), CallbackQueryHandler(done_info, pattern='done')],
             TYPING_REPLY: [MessageHandler(filters.TEXT & ~(filters.COMMAND), received_info)],
-            SEND_CHOOSING: [  # CallbackQueryHandler(view_angel_info, pattern='view'),
+            SEND_CHOOSING: [  
+                CallbackQueryHandler(view_angel_info, pattern='view'),
                 CallbackQueryHandler(send_command, pattern='send')],
             ANGEL: [MessageHandler(~filters.COMMAND, sendAngel)]
         },
