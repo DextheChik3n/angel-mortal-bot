@@ -78,6 +78,7 @@ async def start(update: Update, context: CallbackContext) -> int:
 
 
 async def fill_info(update: Update, context: CallbackContext) -> int:
+    """To prompt the user to type their answer for the question selected"""
     playerName = update.callback_query.message.chat.username.lower()
     qnSelected = int(update.callback_query.data)
     qn_ans = players[playerName].info[qnSelected - 1]
@@ -90,6 +91,7 @@ async def fill_info(update: Update, context: CallbackContext) -> int:
 
 
 async def received_info(update: Update, context: CallbackContext) -> int:
+    """To retrieve user input and save info"""
     userText = update.message.text
     playerName = update.message.chat.username.lower()
     qnSelected = context.user_data["choice"]
@@ -117,6 +119,7 @@ async def received_info(update: Update, context: CallbackContext) -> int:
     return INFO_CHOOSING
 
 async def done_info(update: Update, context: CallbackContext) -> int:
+    """Send success message when user press done button"""
     await update.callback_query.message.reply_text('Registration success! please enter /start again to begin talking to your angel!')
     
     return ConversationHandler.END
@@ -153,6 +156,7 @@ async def send_command(update: Update, context: CallbackContext) -> int:
 
 
 async def sendAngel(update: Update, context: CallbackContext) -> int:
+    """Send the message to the player's Angel"""
     playerName = update.message.chat.username.lower()
 
     if update.message.text:
@@ -177,6 +181,7 @@ async def sendAngel(update: Update, context: CallbackContext) -> int:
 
 
 async def cancel(update: Update, context: CallbackContext) -> int:
+    """Send message when user enters /cancel command"""
     await update.message.reply_text(
         'Sending message cancelled.', reply_markup=ReplyKeyboardRemove()
     )
@@ -187,10 +192,10 @@ async def cancel(update: Update, context: CallbackContext) -> int:
 
 
 def main() -> None:
+    """Run the bot"""
     # Load environment variables
     load_dotenv('secret.env')
 
-    """Start the bot."""
     # Create the Application and pass it your bot's token.
     application = Application.builder().token(os.getenv('BOT_TOKEN')).build()
 
