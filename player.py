@@ -12,6 +12,7 @@ class Player():
         self.angel = None
         # self.mortal = None
         self.chat_id = None
+        self.info = None
 
 
 def loadPlayers(players: dict):

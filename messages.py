@@ -24,3 +24,12 @@ def getSentMessageLog(alias, sender, receiver):
 
 def getNotRegisteredLog(alias, sender, receiver):
     return f'{sender} {alias} {receiver} has not started the bot'
+
+def getInfoQuestion(num):
+    match num:
+        case 1:
+            return '\n\nQ1. What is your fav colour?\n'
+        case 2:
+            return '\n\nQ2. What is your fav food?\n'
+        case 3:
+            return '\n\nQ3. What is your fav animal?\n'
