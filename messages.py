@@ -1,8 +1,8 @@
 import config
 
-MESSAGE_SENT = 'Message sent!\n(/send to send another!)'
+MESSAGE_SENT = 'Message sent!\n(/start to send another!)'
 HELP_TEXT = (
-    f'Use /send to send a message to your {config.ANGEL_ALIAS} or {config.MORTAL_ALIAS} and /cancel to cancel message.'
+    f'Use /start to send a message to your {config.ANGEL_ALIAS} or {config.MORTAL_ALIAS} and /cancel to cancel message.'
     f'\n\n'
     f'This bot supports forwarding only text, photos, stickers, documents, audio, video, and animations.'
 )
@@ -32,8 +32,8 @@ def getNotRegisteredLog(alias, sender, receiver):
 def getInfoQuestion(num):
     match num:
         case 1:
-            return '\n\nQ1. What is your fav colour?\n'
+            return '\n\n1. What is your fav colour?\n'
         case 2:
-            return '\n\nQ2. What is your fav food?\n'
+            return '\n\n2. What is your fav food?\n'
         case 3:
-            return '\n\nQ3. What is your fav animal?\n'
+            return '\n\n3. What is your fav animal?\n'

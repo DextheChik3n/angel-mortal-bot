@@ -38,7 +38,7 @@ async def start(update: Update, context: CallbackContext) -> int:
     """Send a message when the command /start is issued."""
     playerName = update.message.chat.username.lower()
     players[playerName].chat_id = update.message.chat.id
-    
+
     if players[playerName].username is None:
         await update.message.reply_text(messages.NOT_REGISTERED)
         return
@@ -141,19 +141,21 @@ async def done_info(update: Update, context: CallbackContext) -> int:
 async def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
     await update.message.reply_text(messages.HELP_TEXT)
-    
+
+
 async def view_angel_info(update: Update, context: CallbackContext) -> int:
     """Display player's angel personality quiz answers"""
     playerName = update.callback_query.message.chat.username.lower()
     angelInfo = players[playerName].angel.info
-    
+
     await update.callback_query.message.reply_text(
         'Here are some information about your Mortal:\n'
         + messages.getInfoQuestion(1) + angelInfo[0]
         + messages.getInfoQuestion(2) + angelInfo[1]
         + messages.getInfoQuestion(3) + angelInfo[2])
-    
+
     return ConversationHandler.END
+
 
 async def send_command(update: Update, context: CallbackContext) -> int:
     """Start send convo when the command /send is issued."""
@@ -213,9 +215,7 @@ def main() -> None:
         states={
             INFO_CHOOSING: [CallbackQueryHandler(fill_info, pattern='^(1|2|3)$'), CallbackQueryHandler(done_info, pattern='done')],
             TYPING_REPLY: [MessageHandler(filters.TEXT & ~(filters.COMMAND), received_info)],
-            SEND_CHOOSING: [  
-                CallbackQueryHandler(view_angel_info, pattern='view'),
-                CallbackQueryHandler(send_command, pattern='send')],
+            SEND_CHOOSING: [CallbackQueryHandler(view_angel_info, pattern='view'), CallbackQueryHandler(send_command, pattern='send')],
             ANGEL: [MessageHandler(~filters.COMMAND, sendAngel)]
         },
         fallbacks=[CommandHandler('cancel', cancel)],
