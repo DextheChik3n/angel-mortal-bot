@@ -58,9 +58,9 @@ async def start(update: Update, context: CallbackContext) -> int:
                      [InlineKeyboardButton('Question 3', callback_data='3')],
                      [InlineKeyboardButton('Done', callback_data='done')],]
         reply_markup = InlineKeyboardMarkup(send_menu)
-        
+
         await update.message.reply_text(
-            'Fill up the following questions:'
+            messages.FILL_UP_QUESTIONS
             + messages.getInfoQuestion(1) + q1_ans
             + messages.getInfoQuestion(2) + q2_ans
             + messages.getInfoQuestion(3) + q3_ans,
@@ -73,7 +73,7 @@ async def start(update: Update, context: CallbackContext) -> int:
         await update.message.reply_text('you have aldy ans ur personal quiz, naisu')
         # show inline keyboard to either view angel's info profile or send a message
         # or should like check if their partner is registered aldy?
-        
+
         return SEND_CHOOSING
 
 
@@ -84,8 +84,7 @@ async def fill_info(update: Update, context: CallbackContext) -> int:
     qn_ans = players[playerName].info[qnSelected - 1]
     context.user_data["choice"] = qnSelected
 
-    await update.callback_query.message.reply_text(
-        messages.getInfoQuestion(qnSelected) + '\nYour ans currently is: ' + qn_ans + '\n\nPlease type your ans...')
+    await update.callback_query.message.reply_text(messages.getInfoQuestion(qnSelected) + messages.PROMPT_ANSWER)
 
     return TYPING_REPLY
 
@@ -97,32 +96,33 @@ async def received_info(update: Update, context: CallbackContext) -> int:
     qnSelected = context.user_data["choice"]
     players[playerName].info[qnSelected - 1] = userText
     del context.user_data["choice"]
-        
+
     q1_ans = players[playerName].info[0]
     q2_ans = players[playerName].info[1]
     q3_ans = players[playerName].info[2]
 
-    send_menu = [[InlineKeyboardButton('Question 1', callback_data='1')], 
+    send_menu = [[InlineKeyboardButton('Question 1', callback_data='1')],
                  [InlineKeyboardButton('Question 2', callback_data='2')],
                  [InlineKeyboardButton('Question 3', callback_data='3')],
                  [InlineKeyboardButton('Done', callback_data='done')],]
     reply_markup = InlineKeyboardMarkup(send_menu)
-    
+
     await update.message.reply_text(
-        'Fill up the following questions:'
+        messages.FILL_UP_QUESTIONS
         + messages.getInfoQuestion(1) + q1_ans
         + messages.getInfoQuestion(2) + q2_ans
         + messages.getInfoQuestion(3) + q3_ans,
         reply_markup=reply_markup)
-    
 
     return INFO_CHOOSING
 
+
 async def done_info(update: Update, context: CallbackContext) -> int:
     """Send success message when user press done button"""
-    await update.callback_query.message.reply_text('Registration success! please enter /start again to begin talking to your angel!')
-    
+    await update.callback_query.message.reply_text(messages.REGISTRATION_SUCCESS)
+
     return ConversationHandler.END
+
 
 async def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
@@ -182,9 +182,7 @@ async def sendAngel(update: Update, context: CallbackContext) -> int:
 
 async def cancel(update: Update, context: CallbackContext) -> int:
     """Send message when user enters /cancel command"""
-    await update.message.reply_text(
-        'Sending message cancelled.', reply_markup=ReplyKeyboardRemove()
-    )
+    await update.message.reply_text(messages.CANCEL_COMMAND, reply_markup=ReplyKeyboardRemove())
 
     logger.info(f"{update.message.chat.username} canceled the conversation.")
 

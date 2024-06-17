@@ -9,6 +9,10 @@ HELP_TEXT = (
 ERROR_CHAT_ID = 'Sorry an error occured please type /start again'
 SEND_COMMAND = 'Send a message to my:\n(/cancel to stop)'
 NOT_REGISTERED = 'Sorry you are not registered with the game currently'
+FILL_UP_QUESTIONS = 'Fill up the following questions:'
+PROMPT_ANSWER = '\n\nPlease type your answer...'
+REGISTRATION_SUCCESS = 'Registration success! please enter /start again to begin talking to your angel!'
+CANCEL_COMMAND = 'Operation cancelled.'
 
 def getBotNotStartedMessage(alias):
     return f'Sorry your {alias} has not started this bot'
