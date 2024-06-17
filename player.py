@@ -49,22 +49,35 @@ def loadPlayers(players: dict):
 
 
 def saveChatID(players: dict):
-    temp = {}
+    temp_id = {}
+    temp_info = {}
     for k, v in players.items():
-        temp[k] = v.chat_id
+        temp_id[k] = v.chat_id
+        temp_info[k] = v.info
 
     with open(config.CHAT_ID_JSON, 'w+') as f:
-        json.dump(temp, f)
+        json.dump(temp_id, f)
+        
+    with open(config.INFO_JSON, 'w+') as f:
+        json.dump(temp_info, f)
 
 
 def loadChatID(players: dict):
     try:
         with open(config.CHAT_ID_JSON, 'r') as f:
-            temp = json.load(f)
+            temp_id = json.load(f)
 
-            logger.info(temp)
+            logger.info(temp_id)
 
-            for k, v in temp.items():
+            for k, v in temp_id.items():
                 players[k].chat_id = v
+                
+        with open(config.INFO_JSON, 'r') as f:
+            temp_info = json.load(f)
+
+            logger.info(temp_info)
+
+            for k, v in temp_info.items():
+                players[k].info = v
     except:
         logger.warn('Fail to load chat ids')
