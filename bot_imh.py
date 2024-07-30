@@ -175,12 +175,9 @@ async def sendAngel(update: Update, context: CallbackContext) -> int:
             text=messages.getReceivedMessage(
                 config.MORTAL_ALIAS, update.message.text),
             chat_id=players[playerName].angel.chat_id)
-    # else:
-    #     await context.bot.send_message(
-    #         text=messages.getReceivedMessage(config.MORTAL_ALIAS),
-    #         chat_id=players[playerName].angel.chat_id)
-
-    #     sendNonTextMessage(update.message, context.bot, players[playerName].angel.chat_id)
+    else:
+        await sendNonTextMessage(
+            context, update, update.message, context.bot, players[playerName].angel.chat_id)
 
     await update.message.reply_text(messages.MESSAGE_SENT)
 
@@ -189,6 +186,83 @@ async def sendAngel(update: Update, context: CallbackContext) -> int:
             config.ANGEL_ALIAS, playerName, players[playerName].angel.username))
 
     return ConversationHandler.END
+
+
+async def sendNonTextMessage(context, update, message, bot, chat_id):
+    if message.photo:
+        await context.bot.send_message(
+            text="a photo was sent",
+            chat_id=chat_id)
+
+        await bot.send_photo(
+            photo=message.photo[-1],
+            caption=message.caption,
+            chat_id=chat_id)
+
+    elif message.sticker:
+        await context.bot.send_message(
+            text="a sticker was sent",
+            chat_id=chat_id)
+
+        await bot.send_sticker(
+            sticker=message.sticker,
+            chat_id=chat_id)
+        
+    elif message.document:
+        await context.bot.send_message(
+            text="a document was sent",
+            chat_id=chat_id)
+        
+        await bot.send_document(
+            document=message.document,
+            caption=message.caption,
+            chat_id=chat_id)
+        
+    elif message.video:
+        await context.bot.send_message(
+            text="a video was sent",
+            chat_id=chat_id)
+        
+        await bot.send_video(
+            video=message.video,
+            caption=message.caption,
+            chat_id=chat_id)
+        
+    elif message.video_note:
+        await context.bot.send_message(
+            text="a telebubble was sent",
+            chat_id=chat_id)
+        
+        await bot.send_video_note(
+            video_note=message.video_note,
+            chat_id=chat_id)
+        
+    elif message.voice:
+        await context.bot.send_message(
+            text="a voice recording was sent",
+            chat_id=chat_id)
+        
+        await bot.send_voice(
+            voice=message.voice,
+            chat_id=chat_id)
+        
+    elif message.audio:
+        await context.bot.send_message(
+            text="a audio file was sent",
+            chat_id=chat_id)
+        
+        await bot.send_audio(
+            audio=message.audio,
+            chat_id=chat_id)
+        
+    elif message.animation:
+        await context.bot.send_message(
+            text="a gif was sent",
+            chat_id=chat_id)
+        
+        await bot.send_animation(
+            animation=message.animation,
+            chat_id=chat_id)
 
 
 async def cancel(update: Update, context: CallbackContext) -> int:
