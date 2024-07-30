@@ -13,21 +13,17 @@ FILL_UP_QUESTIONS = 'Fill up the following questions:'
 PROMPT_ANSWER = '\n\nPlease type your answer...'
 REGISTRATION_SUCCESS = 'Registration success! please enter /start again to begin talking to your angel!'
 CANCEL_COMMAND = 'Operation cancelled.'
+BOT_NOT_STARTED = f'Sorry your {config.ANGEL_ALIAS} has not started this bot'
+REQUEST_PLAYER_MESSAGE = f'Please type your message to your {config.ANGEL_ALIAS}\n(/cancel to stop)'
 
-def getBotNotStartedMessage(alias):
-    return f'Sorry your {alias} has not started this bot'
+def receivedMessage(text=""): 
+    return f"Message from your {config.ANGEL_ALIAS}:\n\n{text}" if text != "" else f"Message from your {config.ANGEL_ALIAS}:"
 
-def getPlayerMessage(alias):
-    return f'Please type your message to your {alias}\n(/cancel to stop)'
+def sentMessageLog(sender, receiver):
+    return f'{sender} sent a message to their {config.ANGEL_ALIAS} {receiver}'
 
-def getReceivedMessage(alias, text=""):
-    return f"Message from your {alias}:\n\n{text}" if text != "" else f"Message from your {alias}:"
-
-def getSentMessageLog(alias, sender, receiver):
-    return f'{sender} sent a message to their {alias} {receiver}'
-
-def getNotRegisteredLog(alias, sender, receiver):
-    return f'{sender} {alias} {receiver} has not started the bot'
+def notRegisteredLog(sender, receiver):
+    return f'{sender} {config.ANGEL_ALIAS} {receiver} has not started the bot'
 
 def getInfoQuestion(num):
     match num:

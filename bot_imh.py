@@ -75,10 +75,10 @@ async def start(update: Update, context: CallbackContext) -> int:
     else:
         # if the player answer already, allow to view angel profile and send message
         if players[playerName].angel.chat_id is None:
-            await update.message.reply_text(messages.getBotNotStartedMessage(config.ANGEL_ALIAS))
+            await update.message.reply_text(messages.BOT_NOT_STARTED)
 
             logger.info(
-                messages.getNotRegisteredLog(config.ANGEL_ALIAS, playerName, players[playerName].angel.username))
+                messages.notRegisteredLog(playerName, players[playerName].angel.username))
 
             return ConversationHandler.END
 
@@ -93,9 +93,7 @@ async def start(update: Update, context: CallbackContext) -> int:
 
 async def fill_info(update: Update, context: CallbackContext) -> int:
     """To prompt the user to type their answer for the question selected"""
-    playerName = update.callback_query.message.chat.username.lower()
     qnSelected = int(update.callback_query.data)
-    qn_ans = players[playerName].info[qnSelected - 1]
     context.user_data["choice"] = qnSelected
 
     await update.callback_query.message.reply_text(messages.getInfoQuestion(qnSelected) + messages.PROMPT_ANSWER)
@@ -159,9 +157,9 @@ async def view_angel_info(update: Update, context: CallbackContext) -> int:
 
 async def send_command(update: Update, context: CallbackContext) -> int:
     """Start send convo when the command /send is issued."""
-    playerName = update.callback_query.message.chat.username.lower()
+    # playerName = update.callback_query.message.chat.username.lower()
 
-    await update.callback_query.message.reply_text(messages.getPlayerMessage(config.ANGEL_ALIAS))
+    await update.callback_query.message.reply_text(messages.REQUEST_PLAYER_MESSAGE)
 
     return ANGEL
 
@@ -172,23 +170,21 @@ async def sendAngel(update: Update, context: CallbackContext) -> int:
 
     if update.message.text:
         await context.bot.send_message(
-            text=messages.getReceivedMessage(
-                config.MORTAL_ALIAS, update.message.text),
+            text=messages.receivedMessage(update.message.text),
             chat_id=players[playerName].angel.chat_id)
     else:
         await sendNonTextMessage(
-            context, update, update.message, context.bot, players[playerName].angel.chat_id)
+            context, update.message, context.bot, players[playerName].angel.chat_id)
 
     await update.message.reply_text(messages.MESSAGE_SENT)
 
     logger.info(
-        messages.getSentMessageLog(
-            config.ANGEL_ALIAS, playerName, players[playerName].angel.username))
+        messages.sentMessageLog(playerName, players[playerName].angel.username))
 
     return ConversationHandler.END
 
 
-async def sendNonTextMessage(context, update, message, bot, chat_id):
+async def sendNonTextMessage(context, message, bot, chat_id):
     if message.photo:
         await context.bot.send_message(
             text="a photo was sent",
@@ -207,59 +203,59 @@ async def sendNonTextMessage(context, update, message, bot, chat_id):
         await bot.send_sticker(
             sticker=message.sticker,
             chat_id=chat_id)
-        
+
     elif message.document:
         await context.bot.send_message(
             text="a document was sent",
             chat_id=chat_id)
-        
+
         await bot.send_document(
             document=message.document,
             caption=message.caption,
             chat_id=chat_id)
-        
+
     elif message.video:
         await context.bot.send_message(
             text="a video was sent",
             chat_id=chat_id)
-        
+
         await bot.send_video(
             video=message.video,
             caption=message.caption,
             chat_id=chat_id)
-        
+
     elif message.video_note:
         await context.bot.send_message(
             text="a telebubble was sent",
             chat_id=chat_id)
-        
+
         await bot.send_video_note(
             video_note=message.video_note,
             chat_id=chat_id)
-        
+
     elif message.voice:
         await context.bot.send_message(
             text="a voice recording was sent",
             chat_id=chat_id)
-        
+
         await bot.send_voice(
             voice=message.voice,
             chat_id=chat_id)
-        
+
     elif message.audio:
         await context.bot.send_message(
             text="a audio file was sent",
             chat_id=chat_id)
-        
+
         await bot.send_audio(
             audio=message.audio,
             chat_id=chat_id)
-        
+
     elif message.animation:
         await context.bot.send_message(
             text="a gif was sent",
             chat_id=chat_id)
-        
+
         await bot.send_animation(
             animation=message.animation,
             chat_id=chat_id)
