@@ -15,6 +15,14 @@ REGISTRATION_SUCCESS = 'Registration success! please enter /start again to begin
 CANCEL_COMMAND = 'Operation cancelled.'
 BOT_NOT_STARTED = f'Sorry your {config.ANGEL_ALIAS} has not started this bot'
 REQUEST_PLAYER_MESSAGE = f'Please type your message to your {config.ANGEL_ALIAS}\n(/cancel to stop)'
+RECEIVE_PHOTO = f'Your {config.ANGEL_ALIAS} sent you a photo:'
+RECEIVE_STICKER = f'Your {config.ANGEL_ALIAS} sent you a sticker:'
+RECEIVE_DOCUMENT = f'Your {config.ANGEL_ALIAS} sent you a file:'
+RECEIVE_VIDEO = f'Your {config.ANGEL_ALIAS} sent you a video:'
+RECEIVE_TELEBUBBLE = f'Your {config.ANGEL_ALIAS} sent you a telebubble:'
+RECEIVE_VOICE = f'Your {config.ANGEL_ALIAS} sent you a voice recording:'
+RECEIVE_AUDIO = f'Your {config.ANGEL_ALIAS} sent you an audio file:'
+RECEIVE_GIF = f'Your {config.ANGEL_ALIAS} sent you a gif:'
 
 def receivedMessage(text=""): 
     return f"Message from your {config.ANGEL_ALIAS}:\n\n{text}" if text != "" else f"Message from your {config.ANGEL_ALIAS}:"

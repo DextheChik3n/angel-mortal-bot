@@ -187,7 +187,7 @@ async def sendAngel(update: Update, context: CallbackContext) -> int:
 async def sendNonTextMessage(context, message, bot, chat_id):
     if message.photo:
         await context.bot.send_message(
-            text="a photo was sent",
+            text=messages.RECEIVE_PHOTO,
             chat_id=chat_id)
 
         await bot.send_photo(
@@ -197,7 +197,7 @@ async def sendNonTextMessage(context, message, bot, chat_id):
 
     elif message.sticker:
         await context.bot.send_message(
-            text="a sticker was sent",
+            text=messages.RECEIVE_STICKER,
             chat_id=chat_id)
 
         await bot.send_sticker(
@@ -206,7 +206,7 @@ async def sendNonTextMessage(context, message, bot, chat_id):
 
     elif message.document:
         await context.bot.send_message(
-            text="a document was sent",
+            text=messages.RECEIVE_DOCUMENT,
             chat_id=chat_id)
 
         await bot.send_document(
@@ -216,7 +216,7 @@ async def sendNonTextMessage(context, message, bot, chat_id):
 
     elif message.video:
         await context.bot.send_message(
-            text="a video was sent",
+            text=messages.RECEIVE_VIDEO,
             chat_id=chat_id)
 
         await bot.send_video(
@@ -226,7 +226,7 @@ async def sendNonTextMessage(context, message, bot, chat_id):
 
     elif message.video_note:
         await context.bot.send_message(
-            text="a telebubble was sent",
+            text=messages.RECEIVE_TELEBUBBLE,
             chat_id=chat_id)
 
         await bot.send_video_note(
@@ -235,7 +235,7 @@ async def sendNonTextMessage(context, message, bot, chat_id):
 
     elif message.voice:
         await context.bot.send_message(
-            text="a voice recording was sent",
+            text=messages.RECEIVE_VOICE,
             chat_id=chat_id)
 
         await bot.send_voice(
@@ -244,7 +244,7 @@ async def sendNonTextMessage(context, message, bot, chat_id):
 
     elif message.audio:
         await context.bot.send_message(
-            text="a audio file was sent",
+            text=messages.RECEIVE_AUDIO,
             chat_id=chat_id)
 
         await bot.send_audio(
@@ -253,7 +253,7 @@ async def sendNonTextMessage(context, message, bot, chat_id):
 
     elif message.animation:
         await context.bot.send_message(
-            text="a gif was sent",
+            text=messages.RECEIVE_GIF,
             chat_id=chat_id)
 
         await bot.send_animation(
