@@ -146,14 +146,8 @@ async def view_angel_info(update: Update, context: CallbackContext) -> int:
     playerName = update.callback_query.message.chat.username.lower()
     angelInfo = players[playerName].angel.info
     
-    await update.callback_query.edit_message_reply_markup(None) # does this hide the keyboard?
-
-    await update.callback_query.message.reply_text(
-        'Here are some information about your Mortal:'
-        + messages.getInfoQuestion(1) + angelInfo[0]
-        + messages.getInfoQuestion(2) + angelInfo[1]
-        + messages.getInfoQuestion(3) + angelInfo[2]
-        + '\n\n\n(/start to send a message!)')
+    await update.callback_query.edit_message_reply_markup(None) # hide inline keyboard after user select
+    await update.callback_query.message.reply_text(messages.getAngelInformation(angelInfo))
 
     return ConversationHandler.END
 
@@ -161,7 +155,7 @@ async def view_angel_info(update: Update, context: CallbackContext) -> int:
 async def send_command(update: Update, context: CallbackContext) -> int:
     """Start send convo when the command /send is issued."""
 
-    await update.callback_query.edit_message_reply_markup(None)
+    await update.callback_query.edit_message_reply_markup(None) # hide inline keyboard after user select
     await update.callback_query.message.reply_text(messages.REQUEST_PLAYER_MESSAGE)
 
     return ANGEL

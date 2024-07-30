@@ -24,14 +24,18 @@ RECEIVE_VOICE = f'Your {config.ANGEL_ALIAS} sent you a voice recording:'
 RECEIVE_AUDIO = f'Your {config.ANGEL_ALIAS} sent you an audio file:'
 RECEIVE_GIF = f'Your {config.ANGEL_ALIAS} sent you a gif:'
 
-def receivedMessage(text=""): 
+
+def receivedMessage(text=""):
     return f"Message from your {config.ANGEL_ALIAS}:\n\n{text}" if text != "" else f"Message from your {config.ANGEL_ALIAS}:"
+
 
 def sentMessageLog(sender, receiver):
     return f'{sender} sent a message to their {config.ANGEL_ALIAS} {receiver}'
 
+
 def notRegisteredLog(sender, receiver):
     return f'{sender} {config.ANGEL_ALIAS} {receiver} has not started the bot'
+
 
 def getInfoQuestion(num):
     match num:
@@ -41,3 +45,11 @@ def getInfoQuestion(num):
             return '\n\n2. What is your fav food?\n'
         case 3:
             return '\n\n3. What is your fav animal?\n'
+
+
+def getAngelInformation(angelInfo):
+    return f'Here are some information about your {config.ANGEL_ALIAS}:' + \
+        getInfoQuestion(1) + angelInfo[0] + \
+        getInfoQuestion(2) + angelInfo[1] + \
+        getInfoQuestion(3) + angelInfo[2] + \
+        '\n\n\n(/start to send a message!)'
