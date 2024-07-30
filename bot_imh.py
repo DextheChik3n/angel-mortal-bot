@@ -145,20 +145,23 @@ async def view_angel_info(update: Update, context: CallbackContext) -> int:
     """Display player's angel personality quiz answers"""
     playerName = update.callback_query.message.chat.username.lower()
     angelInfo = players[playerName].angel.info
+    
+    await update.callback_query.edit_message_reply_markup(None) # does this hide the keyboard?
 
     await update.callback_query.message.reply_text(
-        'Here are some information about your Mortal:\n'
+        'Here are some information about your Mortal:'
         + messages.getInfoQuestion(1) + angelInfo[0]
         + messages.getInfoQuestion(2) + angelInfo[1]
-        + messages.getInfoQuestion(3) + angelInfo[2])
+        + messages.getInfoQuestion(3) + angelInfo[2]
+        + '\n\n\n(/start to send a message!)')
 
     return ConversationHandler.END
 
 
 async def send_command(update: Update, context: CallbackContext) -> int:
     """Start send convo when the command /send is issued."""
-    # playerName = update.callback_query.message.chat.username.lower()
 
+    await update.callback_query.edit_message_reply_markup(None)
     await update.callback_query.message.reply_text(messages.REQUEST_PLAYER_MESSAGE)
 
     return ANGEL
