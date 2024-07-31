@@ -96,7 +96,8 @@ async def fill_info(update: Update, context: CallbackContext) -> int:
     qnSelected = int(update.callback_query.data)
     context.user_data["choice"] = qnSelected
 
-    await update.callback_query.message.reply_text(messages.getInfoQuestion(qnSelected) + messages.PROMPT_ANSWER)
+    await update.callback_query.edit_message_reply_markup(None) # hide inline keyboard after user select
+    await update.callback_query.message.reply_text(messages.PROMPT_ANSWER + messages.getInfoQuestion(qnSelected))
 
     return TYPING_REPLY
 
@@ -131,6 +132,7 @@ async def received_info(update: Update, context: CallbackContext) -> int:
 
 async def done_info(update: Update, context: CallbackContext) -> int:
     """Send success message when user press done button"""
+    await update.callback_query.edit_message_reply_markup(None) # hide inline keyboard after user select
     await update.callback_query.message.reply_text(messages.REGISTRATION_SUCCESS)
 
     return ConversationHandler.END
