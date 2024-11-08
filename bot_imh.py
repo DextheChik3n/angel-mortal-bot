@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext, ConversationHandler, CallbackQueryHandler
 
-INFO_CHOOSING, TYPING_REPLY, SEND_CHOOSING, ANGEL = range(4)
+INFO_CHOOSING, TYPING_REPLY, SEND_CHOOSING, CONFIRM_CHOOSING, ANGEL = range(5)
 
 # Enable logging
 # For logging using .log files
@@ -129,9 +129,47 @@ async def received_info(update: Update, context: CallbackContext) -> int:
 
     return INFO_CHOOSING
 
+async def reprint_info(update: Update, context: CallbackContext) -> int:
+    """To retrieve user input and save info"""
+    await update.callback_query.edit_message_reply_markup(None) # hide inline keyboard after user select 'no'
+
+    playerName = update.callback_query.message.chat.username.lower()
+
+    q1_ans = players[playerName].info[0]
+    q2_ans = players[playerName].info[1]
+    q3_ans = players[playerName].info[2]
+
+    send_menu = [[InlineKeyboardButton('Question 1', callback_data='1')],
+                 [InlineKeyboardButton('Question 2', callback_data='2')],
+                 [InlineKeyboardButton('Question 3', callback_data='3')],
+                 [InlineKeyboardButton('Done', callback_data='done')],]
+    reply_markup = InlineKeyboardMarkup(send_menu)
+
+    await update.callback_query.message.reply_text(
+        messages.FILL_UP_QUESTIONS
+        + messages.getInfoQuestion(1) + q1_ans
+        + messages.getInfoQuestion(2) + q2_ans
+        + messages.getInfoQuestion(3) + q3_ans,
+        reply_markup=reply_markup)
+
+    return INFO_CHOOSING
+
+async def confirm_info(update: Update, context: CallbackContext) -> int:
+    """Send confirmation message when user press done button"""
+
+    await update.callback_query.edit_message_reply_markup(None) # hide inline keyboard after user select
+    
+    send_menu = [[InlineKeyboardButton('Yes', callback_data='yes')],
+                     [InlineKeyboardButton('No', callback_data='no')]]
+    reply_markup = InlineKeyboardMarkup(send_menu)
+
+    await update.callback_query.message.reply_text('Are you sure?\n\nNote: Once done, you are unable to go back and change your answers', reply_markup=reply_markup)
+
+    return CONFIRM_CHOOSING
 
 async def done_info(update: Update, context: CallbackContext) -> int:
-    """Send success message when user press done button"""
+    """Send success message to confirm user's registration"""
+    
     await update.callback_query.edit_message_reply_markup(None) # hide inline keyboard after user select
     await update.callback_query.message.reply_text(messages.REGISTRATION_SUCCESS)
 
@@ -282,7 +320,8 @@ def main() -> None:
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
         states={
-            INFO_CHOOSING: [CallbackQueryHandler(fill_info, pattern='^(1|2|3)$'), CallbackQueryHandler(done_info, pattern='done')],
+            INFO_CHOOSING: [CallbackQueryHandler(fill_info, pattern='^(1|2|3)$'), CallbackQueryHandler(confirm_info, pattern='done')],
+            CONFIRM_CHOOSING: [CallbackQueryHandler(done_info, pattern='yes'), CallbackQueryHandler(reprint_info, pattern='no')],
             TYPING_REPLY: [MessageHandler(filters.TEXT & ~(filters.COMMAND), received_info)],
             SEND_CHOOSING: [CallbackQueryHandler(view_angel_info, pattern='view'), CallbackQueryHandler(send_command, pattern='send')],
             ANGEL: [MessageHandler(~filters.COMMAND, sendAngel)]
