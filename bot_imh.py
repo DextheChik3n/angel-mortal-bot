@@ -15,17 +15,16 @@ INFO_CHOOSING, TYPING_REPLY, SEND_CHOOSING, CONFIRM_CHOOSING, ANGEL = range(5)
 
 # Enable logging
 # For logging using .log files
-'''
 logging.basicConfig(
     filename=f'logs/{datetime.datetime.now(datetime.UTC).strftime("%d-%m-%Y-%H-%M-%S")}.log',
     filemode='w',
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-'''
+
 
 # For logging using terminal
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
-)
+# logging.basicConfig(
+#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+# )
 
 logger = logging.getLogger(__name__)
 
