@@ -312,7 +312,10 @@ def main() -> None:
     load_dotenv('secret.env')
 
     # Create the Application and pass it your bot's token.
-    application = Application.builder().token(os.getenv('BOT_TOKEN')).build()
+    # application = Application.builder().token(os.getenv('BOT_TOKEN')).build()
+    # Using with Heroku
+    bot_token = os.environ.get('BOT_TOKEN')
+    application = Application.builder().token(bot_token).build()
 
     application.add_handler(CommandHandler("help", help_command))
 
