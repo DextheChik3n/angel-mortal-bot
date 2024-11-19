@@ -6,7 +6,7 @@ import collections
 import config
 import os
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext, ConversationHandler, CallbackQueryHandler
@@ -309,7 +309,7 @@ async def cancel(update: Update, context: CallbackContext) -> int:
 def main() -> None:
     """Run the bot"""
     # Load environment variables
-    load_dotenv('secret.env')
+    # load_dotenv('secret.env')
 
     # Create the Application and pass it your bot's token.
     # application = Application.builder().token(os.getenv('BOT_TOKEN')).build()
