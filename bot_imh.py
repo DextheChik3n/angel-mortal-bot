@@ -6,7 +6,7 @@ import collections
 import config
 import os
 
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext, ConversationHandler, CallbackQueryHandler
@@ -15,16 +15,16 @@ INFO_CHOOSING, TYPING_REPLY, SEND_CHOOSING, CONFIRM_CHOOSING, ANGEL = range(5)
 
 # Enable logging
 # For logging using .log files
-logging.basicConfig(
-    filename=f'logs/{datetime.datetime.now(datetime.UTC).strftime("%d-%m-%Y-%H-%M-%S")}.log',
-    filemode='w',
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+# logging.basicConfig(
+#     filename=f'logs/{datetime.datetime.now(datetime.UTC).strftime("%d-%m-%Y-%H-%M-%S")}.log',
+#     filemode='w',
+#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
 # For logging using terminal
-# logging.basicConfig(
-#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
-# )
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+)
 
 logger = logging.getLogger(__name__)
 
@@ -308,14 +308,15 @@ async def cancel(update: Update, context: CallbackContext) -> int:
 
 def main() -> None:
     """Run the bot"""
+    # Using with local environment
     # Load environment variables
-    # load_dotenv('secret.env')
-
+    load_dotenv('secret.env')
     # Create the Application and pass it your bot's token.
-    # application = Application.builder().token(os.getenv('BOT_TOKEN')).build()
+    application = Application.builder().token(os.getenv('BOT_TOKEN')).build()
+   
     # Using with Heroku
-    bot_token = os.environ.get('BOT_TOKEN')
-    application = Application.builder().token(bot_token).build()
+    # bot_token = os.environ.get('BOT_TOKEN')
+    # application = Application.builder().token(bot_token).build()
 
     application.add_handler(CommandHandler("help", help_command))
 
