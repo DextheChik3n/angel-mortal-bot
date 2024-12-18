@@ -49,12 +49,12 @@ async def start(update: Update, context: CallbackContext) -> int:
     logger.info(
         f'{playerName} started the bot with chat_id {players[playerName].chat_id}')
 
-    if players[playerName].info is None:
+    if players[playerName].info is None or players[playerName].info[0] is False:
         # When the player runs the bot for the first time, prompt to answer their profile questions first
-        players[playerName].info = ['blank', 'blank', 'blank']
-        q1_ans = players[playerName].info[0]
-        q2_ans = players[playerName].info[1]
-        q3_ans = players[playerName].info[2]
+        players[playerName].info = [False, ' ', ' ', ' ']
+        q1_ans = players[playerName].info[1]
+        q2_ans = players[playerName].info[2]
+        q3_ans = players[playerName].info[3]
 
         send_menu = [[InlineKeyboardButton('Question 1', callback_data='1')],
                      [InlineKeyboardButton('Question 2', callback_data='2')],
@@ -106,12 +106,12 @@ async def received_info(update: Update, context: CallbackContext) -> int:
     userText = update.message.text
     playerName = update.message.chat.username.lower()
     qnSelected = context.user_data["choice"]
-    players[playerName].info[qnSelected - 1] = userText
+    players[playerName].info[qnSelected] = userText
     del context.user_data["choice"]
 
-    q1_ans = players[playerName].info[0]
-    q2_ans = players[playerName].info[1]
-    q3_ans = players[playerName].info[2]
+    q1_ans = players[playerName].info[1]
+    q2_ans = players[playerName].info[2]
+    q3_ans = players[playerName].info[3]
 
     send_menu = [[InlineKeyboardButton('Question 1', callback_data='1')],
                  [InlineKeyboardButton('Question 2', callback_data='2')],
@@ -134,9 +134,9 @@ async def reprint_info(update: Update, context: CallbackContext) -> int:
 
     playerName = update.callback_query.message.chat.username.lower()
 
-    q1_ans = players[playerName].info[0]
-    q2_ans = players[playerName].info[1]
-    q3_ans = players[playerName].info[2]
+    q1_ans = players[playerName].info[1]
+    q2_ans = players[playerName].info[2]
+    q3_ans = players[playerName].info[3]
 
     send_menu = [[InlineKeyboardButton('Question 1', callback_data='1')],
                  [InlineKeyboardButton('Question 2', callback_data='2')],
@@ -168,6 +168,10 @@ async def confirm_info(update: Update, context: CallbackContext) -> int:
 
 async def done_info(update: Update, context: CallbackContext) -> int:
     """Send success message to confirm user's registration"""
+
+    # TODO: check if the user has filled up all the questions
+    playerName = update.callback_query.message.chat.username.lower()
+    players[playerName].info[0] = True
     
     await update.callback_query.edit_message_reply_markup(None) # hide inline keyboard after user select
     await update.callback_query.message.reply_text(messages.REGISTRATION_SUCCESS)

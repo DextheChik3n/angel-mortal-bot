@@ -49,7 +49,7 @@ def getInfoQuestion(num):
 
 def getAngelInformation(angelInfo):
     return f'Here are some information about your {config.ANGEL_ALIAS}:' + \
-        getInfoQuestion(1) + angelInfo[0] + \
-        getInfoQuestion(2) + angelInfo[1] + \
-        getInfoQuestion(3) + angelInfo[2] + \
+        getInfoQuestion(1) + angelInfo[1] + \
+        getInfoQuestion(2) + angelInfo[2] + \
+        getInfoQuestion(3) + angelInfo[3] + \
         '\n\n\n(/start to send a message!)'
