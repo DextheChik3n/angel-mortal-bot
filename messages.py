@@ -8,12 +8,12 @@ HELP_TEXT = (
 )
 ERROR_CHAT_ID = 'Sorry an error occured please type /start again'
 SEND_COMMAND = 'Send a message to my:\n(/cancel to stop)'
-NOT_REGISTERED = 'Sorry you are not registered with the game currently'
+NOT_REGISTERED = 'Sorry you are not registered with the game currently, please contact Dexter @chik3n about it'
 FILL_UP_QUESTIONS = 'Fill up the following questions:'
 PROMPT_ANSWER = 'Please enter your answer for:'
 REGISTRATION_SUCCESS = 'Registration success! please enter /start again to begin talking to your angel!'
 CANCEL_COMMAND = 'Operation cancelled.'
-BOT_NOT_STARTED = f'Sorry your {config.ANGEL_ALIAS} has not started this bot' # message to ask user to wait or contact welfare team and then click on /start again
+BOT_NOT_STARTED = f'Sorry your {config.ANGEL_ALIAS} has not started this bot, please contact Dexter @chik3n about it' # message to ask user to wait or contact welfare team and then click on /start again
 REQUEST_PLAYER_MESSAGE = f'Please type your message to your {config.ANGEL_ALIAS}\n(/cancel to stop)'
 RECEIVE_PHOTO = f'Your {config.ANGEL_ALIAS} sent you a photo:'
 RECEIVE_STICKER = f'Your {config.ANGEL_ALIAS} sent you a sticker:'
