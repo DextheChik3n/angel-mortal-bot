@@ -40,11 +40,11 @@ def notRegisteredLog(sender, receiver):
 def getInfoQuestion(num):
     match num:
         case 1:
-            return '\n\n1. What is your favourite dessert?\n'
+            return '\n\n1. what is your favourite moment during CNY?\n'
         case 2:
-            return '\n\n2. What is taking up my headspace recently?\n'
+            return '\n\n2. what is one small act of kindness in the past month that made your day better?\n'
         case 3:
-            return '\n\n3. What are your plans for the winter holidays?\n'
+            return '\n\n3. if you could have any superpower for a day, what would it be and why?\n'
 
 
 def getAngelInformation(angelInfo):
