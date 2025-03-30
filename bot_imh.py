@@ -64,9 +64,9 @@ async def start(update: Update, context: CallbackContext) -> int:
 
         await update.message.reply_text(
             messages.FILL_UP_QUESTIONS
-            + messages.getInfoQuestion(1) + q1_ans
-            + messages.getInfoQuestion(2) + q2_ans
-            + messages.getInfoQuestion(3) + q3_ans,
+            + messages.getInfoQuestion(1) + 'Ans: ' + q1_ans
+            + messages.getInfoQuestion(2) + 'Ans: ' + q2_ans
+            + messages.getInfoQuestion(3) + 'Ans: ' + q3_ans,
             reply_markup=reply_markup)
 
         return INFO_CHOOSING
@@ -121,9 +121,9 @@ async def received_info(update: Update, context: CallbackContext) -> int:
 
     await update.message.reply_text(
         messages.FILL_UP_QUESTIONS
-        + messages.getInfoQuestion(1) + q1_ans
-        + messages.getInfoQuestion(2) + q2_ans
-        + messages.getInfoQuestion(3) + q3_ans,
+        + messages.getInfoQuestion(1) + 'Ans: ' + q1_ans
+        + messages.getInfoQuestion(2) + 'Ans: ' + q2_ans
+        + messages.getInfoQuestion(3) + 'Ans: ' + q3_ans,
         reply_markup=reply_markup)
 
     return INFO_CHOOSING
@@ -146,9 +146,9 @@ async def reprint_info(update: Update, context: CallbackContext) -> int:
 
     await update.callback_query.message.reply_text(
         messages.FILL_UP_QUESTIONS
-        + messages.getInfoQuestion(1) + q1_ans
-        + messages.getInfoQuestion(2) + q2_ans
-        + messages.getInfoQuestion(3) + q3_ans,
+        + messages.getInfoQuestion(1) + 'Ans: ' + q1_ans
+        + messages.getInfoQuestion(2) + 'Ans: ' + q2_ans
+        + messages.getInfoQuestion(3) + 'Ans: ' + q3_ans,
         reply_markup=reply_markup)
 
     return INFO_CHOOSING
