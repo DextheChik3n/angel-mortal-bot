@@ -11,7 +11,16 @@ from dotenv import load_dotenv
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext, ConversationHandler, CallbackQueryHandler
 
+from appwrite.client import Client
+from appwrite.id import ID
+
 INFO_CHOOSING, TYPING_REPLY, SEND_CHOOSING, CONFIRM_CHOOSING, ANGEL = range(5)
+
+# Appwrite client initialization
+client = Client()
+client.set_endpoint('https://nyc.cloud.appwrite.io/v1')
+client.set_project('68aaa2b50003e87bebde')
+client.set_key('standard_0e65e5c41980ff876e0cf738b9c859a66c9006b46758e2cbb40f74ea315b55f6c77d8ab80cd1f9bea157485c7b3f73d0e6398c312f7e8b82cd784fd6deeeec1a423716858004c5fc1184340a21c8de4866ac0e05edc59d5ada315a0f8bd67873133b77e91505349e5c3b56a29564fd53f6eca22575aa00f96fe264117a795b8c')
 
 # Enable logging
 # For logging using .log files
